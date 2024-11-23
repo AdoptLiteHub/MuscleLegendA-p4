@@ -1,5 +1,5 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Marwanleprodu91670/muscle-legend-lite-hub-elerium-library-/refs/heads/main/library"))()
-local Window = Library:AddWindow("Lite Hub Muscle Legend v8", { MinSize = Vector2.new(500, 500) })
+local Window = Library:AddWindow("Lite Hub Muscle Legend v8", { MinSize = Vector2.new(550, 600) })
 
 -- Default values for sliders
 local defaultWalkSpeed = 16
