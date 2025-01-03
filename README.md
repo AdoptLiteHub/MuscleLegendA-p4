@@ -1,8 +1,6 @@
+
 -- Load Orion UI Library
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/OrionUI/Orion/master/Source.lua"))()
-
--- Initialize Orion
-OrionLib:Init()
 
 -- Create the main window
 local Window = OrionLib:MakeWindow({
@@ -47,6 +45,7 @@ local TargetPlayerSection = KillingTab:AddSection({
 
 -- Create the dropdown for selecting a player
 local PlayerDropdown
+local selectedPlayer
 PlayerDropdown = TargetPlayerSection:AddDropdown({
     Name = "Select Player",
     Options = {},
@@ -111,6 +110,8 @@ SpyToggle = SpyingSection:AddToggle({
 
 -- Function to create the hitboxes for all players
 local function createPlayerHitboxes(character)
+    if not character then return end
+
     local hitboxSize = Vector3.new(5, 5, 5)
     local rightHand = character:FindFirstChild("RightHand")
     local leftHand = character:FindFirstChild("LeftHand")
@@ -119,19 +120,15 @@ local function createPlayerHitboxes(character)
         return
     end
 
+    -- Iterate through all players and create hitboxes
     for _, player in pairs(game.Players:GetPlayers()) do
-        if player == game.Players.LocalPlayer then
-            continue
-        end
+        if player == game.Players.LocalPlayer then continue end
 
         local otherCharacter = player.Character
-        if not otherCharacter then
-            continue
-        end
+        if not otherCharacter then continue end
+        
         local humanoidRootPart = otherCharacter:FindFirstChild("HumanoidRootPart")
-        if not humanoidRootPart then
-            continue
-        end
+        if not humanoidRootPart then continue end
 
         local hitbox = Instance.new("Part")
         hitbox.Size = hitboxSize
@@ -155,6 +152,7 @@ local function createPlayerHitboxes(character)
             end
         end)
 
+        -- Update the hitbox position on every frame
         game:GetService("RunService").Heartbeat:Connect(function()
             if handToUse and hitbox then
                 hitbox.CFrame = handToUse.CFrame
@@ -165,3 +163,5 @@ end
 
 -- Initial update of player list when the script runs
 updatePlayerList()
+
+OrionLib:Init()
